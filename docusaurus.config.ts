@@ -22,7 +22,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'AxonFlowInc', // Usually your GitHub org/user name.
+  organizationName: 'getaxonflow', // Usually your GitHub org/user name.
   projectName: 'axonflow-docs', // Usually your repo name.
 
   onBrokenLinks: 'warn',

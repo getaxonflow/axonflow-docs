@@ -11,32 +11,32 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Sub-10ms Policy Enforcement',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Real-time AI governance without latency impact. Deploy In-VPC for P95 sub-10ms
+        policy evaluation on every LLM request.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Multi-Agent Orchestration',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Coordinate 10-100+ AI agents in parallel with MAP (Multi-Agent Planning).
+        Achieve 40x faster completion times with intelligent task decomposition.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Production-Ready Deployment',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        One-click AWS Marketplace deployment with CloudFormation. In-VPC architecture
+        with ECS/Fargate, RDS PostgreSQL, and auto-scaling built-in.
       </>
     ),
   },

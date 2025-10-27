@@ -22,6 +22,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'architecture/overview',
         'architecture/infrastructure',
+        'architecture/well-architected-review',
       ],
     },
     {

@@ -1,0 +1,4 @@
+# Pricing page redirects - redirect to main marketing site
+/saas-pricing https://getaxonflow.com/saas-pricing 301
+/enterprise-pricing https://getaxonflow.com/enterprise-pricing 301
+/pricing https://getaxonflow.com/pricing 301

@@ -573,8 +573,8 @@ Actual RPS:      8.26
 Latencies:
   Average: 3.00ms
   P50:     2.82ms
-  P95:     4.38ms  (<10ms target, 56% margin)
-  P99:     11.82ms (<20ms target, 41% margin)
+  P95:     4.38ms  (&lt;10ms target, 56% margin)
+  P99:     11.82ms (&lt;20ms target, 41% margin)
 
 Result: ✅ SLO MET (100% compliance)
 ```
@@ -641,7 +641,7 @@ Result: ✅ SLO MET (100% compliance)
 ### Network Performance
 
 ✅ **VPC private endpoints**: Low-latency inter-instance communication (10.0.x.x)
-✅ **Within-AZ traffic**: Minimal latency (<1ms)
+✅ **Within-AZ traffic**: Minimal latency (&lt;1ms)
 ✅ **Cross-AZ traffic**: Low latency (~2-3ms)
 
 ### Monitoring

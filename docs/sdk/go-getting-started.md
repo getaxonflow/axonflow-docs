@@ -213,7 +213,7 @@ AXONFLOW_CLIENT_ID=client-healthcare-prod-a1b2c3
 AXONFLOW_CLIENT_SECRET=secret-xyz123
 
 # In-VPC Mode (Private Endpoint)
-AXONFLOW_AGENT_URL=https://10.0.2.67:8443
+AXONFLOW_AGENT_URL=https://YOUR_VPC_IP:8443
 AXONFLOW_CLIENT_ID=client-healthcare-prod-a1b2c3
 AXONFLOW_CLIENT_SECRET=secret-xyz123
 ```
@@ -224,7 +224,7 @@ For applications running in AWS VPC, use the private endpoint for sub-10ms laten
 
 ```go
 client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL:     "https://10.0.2.67:8443",  // VPC private endpoint
+    AgentURL:     "https://YOUR_VPC_IP:8443",  // VPC private endpoint (replace YOUR_VPC_IP with your internal IP)
     ClientID:     "your-client-id",
     ClientSecret: "your-secret",
     Mode:         "production",

@@ -33,7 +33,7 @@ AxonFlow demonstrates **strong adherence to AWS Well-Architected Framework best 
                │                               │
     ┌──────────▼──────────┐         ┌─────────▼──────────┐
     │  Central-1 (AZ a)   │         │  Central-2 (AZ b)  │
-    │  63.178.85.84       │         │  3.69.67.115       │
+    │  INSTANCE_IP_1      │         │  INSTANCE_IP_2     │
     │  t3.medium          │         │  t3.medium         │
     │                     │         │                    │
     │  • 3 agents         │         │  • 3 agents        │
@@ -364,7 +364,7 @@ Cost: $2.80/month ($0.40/secret/month)
 #### Compute Layer: ✅ NO SPOF
 
 **Multi-Instance HA (deployed October 25, 2025)**:
-- **Central-1** (63.178.85.84, eu-central-1a):
+- **Central-1** (INSTANCE_IP_1, eu-central-1a):
   - 3 agents (port 8080)
   - 5 orchestrators (port 8081)
   - Dashboard (port 9001)
@@ -372,7 +372,7 @@ Cost: $2.80/month ($0.40/secret/month)
   - Grafana (port 3000)
   - Instance type: t3.medium (2 vCPU, 4 GB RAM)
 
-- **Central-2** (3.69.67.115, eu-central-1b):
+- **Central-2** (INSTANCE_IP_2, eu-central-1b):
   - 3 agents (port 8080)
   - 5 orchestrators (port 8081)
   - Dashboard (port 9001)

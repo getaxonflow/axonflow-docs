@@ -62,7 +62,7 @@ AXONFLOW_ENDPOINT=https://staging-eu.getaxonflow.com
 # In-VPC Mode (Private Endpoint)
 AXONFLOW_API_KEY=your-client-id-here
 AXONFLOW_CLIENT_SECRET=your-client-secret-here
-AXONFLOW_ENDPOINT=https://10.0.2.67:8443
+AXONFLOW_ENDPOINT=https://YOUR_VPC_IP:8443
 ```
 
 ### Method 2: Direct Configuration
@@ -412,7 +412,7 @@ const axonflow = new AxonFlow({
 For **In-VPC Mode**:
 ```typescript
 const axonflow = new AxonFlow({
-  endpoint: 'https://10.0.2.67:8443'  // VPC private endpoint (must be in same VPC)
+  endpoint: 'https://YOUR_VPC_IP:8443'  // VPC private endpoint (replace YOUR_VPC_IP with your internal IP)
 });
 ```
 

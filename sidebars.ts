@@ -42,6 +42,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'deployment/aws-marketplace',
         'deployment/cloudformation',
+        'deployment/licensing',
         'deployment/post-deployment',
         'deployment/troubleshooting',
       ],

@@ -17,6 +17,16 @@ const sidebars: SidebarsConfig = {
     'getting-started',
     {
       type: 'category',
+      label: 'SDK Integration',
+      collapsed: false,
+      items: [
+        'sdk/typescript-getting-started',
+        'sdk/go-getting-started',
+        'sdk/authentication',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Architecture',
       collapsed: false,
       items: [
@@ -30,6 +40,7 @@ const sidebars: SidebarsConfig = {
       label: 'Deployment',
       collapsed: false,
       items: [
+        'deployment/aws-marketplace',
         'deployment/cloudformation',
         'deployment/post-deployment',
         'deployment/troubleshooting',

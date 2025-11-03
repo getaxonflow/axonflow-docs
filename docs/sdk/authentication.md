@@ -1,43 +1,60 @@
 # SDK Authentication
 
-Learn how to securely authenticate your applications with AxonFlow using API keys, license keys, and best practices for production deployments.
+Learn how to securely authenticate your applications with AxonFlow using license keys and best practices for production deployments.
 
 ## Overview
 
-AxonFlow uses API key authentication to identify clients and enforce governance policies. Each client receives a unique API key (also called `client_id`) that grants access to the AxonFlow platform.
+**As of November 2025, AxonFlow uses License Key authentication for all deployments.** Each organization receives a cryptographically signed license key that grants access to the AxonFlow platform and enforces tier-based limits.
 
-## Getting Your API Key
+**License Key Format:** `AXON-{TIER}-{ID}-{TIMESTAMP}-{HMAC}`
+**Example:** `AXON-PRO-12345-ABCDE-67890`
 
-### For SaaS Mode
+> **Note:** The legacy ClientID/ClientSecret authentication method is deprecated as of October 2025. See [Legacy Authentication](#legacy-authentication-deprecated) section for migration guidance.
 
-1. Sign up at [getaxonflow.com](https://getaxonflow.com)
-2. Navigate to **Settings > API Keys**
-3. Click **Generate New API Key**
-4. Copy your `client_id` and `client_secret`
+## Getting Your License Key
 
-### For In-VPC Mode (AWS Marketplace)
+### For AWS Marketplace Deployments (In-VPC)
 
 After deploying AxonFlow via AWS CloudFormation:
 
-1. Check CloudFormation stack outputs
-2. Find the `ClientID` and `ClientSecret` values
-3. Store these in AWS Secrets Manager (recommended)
+1. License key is automatically generated during deployment
+2. Find it in AWS Secrets Manager at: `axonflow/customers/{your-org-id}/license-key`
+3. Or check CloudFormation stack outputs for `LicenseKey`
 
-## Authentication Methods
+**Retrieve via AWS CLI:**
+```bash
+aws secretsmanager get-secret-value \
+  --secret-id axonflow/customers/your-org-id/license-key \
+  --region eu-central-1 \
+  --query 'SecretString' \
+  --output text
+```
+
+### For Direct Purchases
+
+Contact AxonFlow sales to receive your organization's license key:
+- **Email:** sales@getaxonflow.com
+- **Subject:** "License Key Request - [Your Organization]"
+- **Response Time:** 1 business day
+
+You'll receive a license key via secure channel (encrypted email or AWS Secrets Manager).
+
+## Using License Keys
 
 ### Method 1: Environment Variables (Recommended)
 
-**TypeScript/JavaScript:**
+**TypeScript/JavaScript (SDK v1.1.0+):**
 
 ```typescript
 import { AxonFlow } from '@axonflow/sdk';
 
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY  // Loads from .env file
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
+  endpoint: process.env.AXONFLOW_ENDPOINT
 });
 ```
 
-**Go:**
+**Go (SDK v1.2.0+):**
 
 ```go
 import (
@@ -45,50 +62,25 @@ import (
     "github.com/getaxonflow/axonflow-go"
 )
 
-client := axonflow.NewClientSimple(
-    os.Getenv("AXONFLOW_AGENT_URL"),
-    os.Getenv("AXONFLOW_CLIENT_ID"),
-    os.Getenv("AXONFLOW_CLIENT_SECRET"),
-)
+client, err := axonflow.NewClient(axonflow.ClientConfig{
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+})
 ```
 
 **Environment file (`.env`):**
 
 ```bash
-# SaaS Mode (Public Endpoint)
-AXONFLOW_API_KEY=your-client-id-here
-AXONFLOW_ENDPOINT=https://staging-eu.getaxonflow.com
-
-# In-VPC Mode (Private Endpoint)
-AXONFLOW_API_KEY=your-client-id-here
-AXONFLOW_CLIENT_SECRET=your-client-secret-here
+# License Key Authentication (Current Method)
+AXONFLOW_LICENSE_KEY=AXON-PRO-12345-ABCDE-67890
 AXONFLOW_ENDPOINT=https://YOUR_VPC_IP:8443
+
+# Or for central deployments
+AXONFLOW_LICENSE_KEY=AXON-ENT-67890-FGHIJ-KLMNO
+AXONFLOW_AGENT_URL=https://staging-eu.getaxonflow.com
 ```
 
-### Method 2: Direct Configuration
-
-Only use in secure environments (server-side code):
-
-**TypeScript:**
-
-```typescript
-const axonflow = new AxonFlow({
-  apiKey: 'client-healthcare-prod-a1b2c3',
-  endpoint: 'https://staging-eu.getaxonflow.com'
-});
-```
-
-**Go:**
-
-```go
-client := axonflow.NewClientSimple(
-    "https://staging-eu.getaxonflow.com",
-    "client-healthcare-prod-a1b2c3",
-    "secret-xyz123",
-)
-```
-
-### Method 3: AWS Secrets Manager (Production)
+### Method 2: AWS Secrets Manager (Production Recommended)
 
 For production In-VPC deployments, store credentials in AWS Secrets Manager:
 
@@ -102,14 +94,16 @@ async function getAxonFlowClient() {
   const secretsManager = new SecretsManagerClient({ region: 'eu-central-1' });
 
   const response = await secretsManager.send(
-    new GetSecretValueCommand({ SecretId: 'axonflow/credentials' })
+    new GetSecretValueCommand({
+      SecretId: 'axonflow/customers/your-org-id/license-key'
+    })
   );
 
-  const secrets = JSON.parse(response.SecretString);
+  const licenseKey = response.SecretString;
 
   return new AxonFlow({
-    apiKey: secrets.client_id,
-    endpoint: secrets.endpoint
+    licenseKey: licenseKey,
+    endpoint: 'https://YOUR_VPC_IP:8443'
   });
 }
 
@@ -120,7 +114,6 @@ const axonflow = await getAxonFlowClient();
 
 ```go
 import (
-    "encoding/json"
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
     "github.com/aws/aws-sdk-go/service/secretsmanager"
@@ -132,20 +125,18 @@ func getAxonFlowClient() (*axonflow.Client, error) {
     svc := secretsmanager.New(sess, aws.NewConfig().WithRegion("eu-central-1"))
 
     result, err := svc.GetSecretValue(&secretsmanager.GetSecretValueInput{
-        SecretId: aws.String("axonflow/credentials"),
+        SecretId: aws.String("axonflow/customers/your-org-id/license-key"),
     })
     if err != nil {
         return nil, err
     }
 
-    var secrets map[string]string
-    json.Unmarshal([]byte(*result.SecretString), &secrets)
+    licenseKey := *result.SecretString
 
-    return axonflow.NewClientSimple(
-        secrets["endpoint"],
-        secrets["client_id"],
-        secrets["client_secret"],
-    ), nil
+    return axonflow.NewClient(axonflow.ClientConfig{
+        LicenseKey: licenseKey,
+        AgentURL:   "https://YOUR_VPC_IP:8443",
+    })
 }
 ```
 
@@ -479,12 +470,180 @@ func testAuthentication() error {
 }
 ```
 
+## Legacy Authentication (Deprecated)
+
+> **Warning:** The ClientID/ClientSecret authentication method was deprecated in October 2025 and will be removed in a future release. All new deployments should use License Keys.
+
+### What Changed
+
+- **Old Method:** ClientID + ClientSecret (2-step auth)
+- **New Method:** License Key (single key auth)
+- **Reason for Change:** Simplified authentication, better security, license enforcement
+
+### Backward Compatibility
+
+AxonFlow SDKs currently support both authentication methods for backward compatibility:
+
+**Legacy Code (Still Works):**
+
+```typescript
+// TypeScript - Old method (deprecated)
+const axonflow = new AxonFlow({
+  apiKey: 'client-healthcare-prod-a1b2c3',  // clientID
+  clientSecret: 'secret-xyz123'              // clientSecret
+});
+```
+
+```go
+// Go - Old method (deprecated)
+client := axonflow.NewClientSimple(
+    "https://staging-eu.getaxonflow.com",
+    "client-healthcare-prod-a1b2c3",  // clientID
+    "secret-xyz123",                  // clientSecret
+)
+```
+
+**This backward compatibility will be maintained until June 2026** to give customers time to migrate.
+
+### Migrating to License Keys
+
+Follow these steps to migrate your application:
+
+**Step 1: Obtain Your License Key**
+
+Contact AxonFlow support to receive your organization's license key:
+- Email: support@getaxonflow.com
+- Subject: "License Key Migration Request - [Your Organization]"
+- Include: Current ClientID for verification
+
+**Step 2: Update Environment Variables**
+
+Replace your old credentials in `.env`:
+
+```bash
+# OLD (Remove these)
+AXONFLOW_CLIENT_ID=client-healthcare-prod-a1b2c3
+AXONFLOW_CLIENT_SECRET=secret-xyz123
+
+# NEW (Add this)
+AXONFLOW_LICENSE_KEY=AXON-PRO-12345-ABCDE-67890
+```
+
+**Step 3: Update Code**
+
+**TypeScript Migration:**
+
+```typescript
+// BEFORE (Old method)
+import { AxonFlow } from '@axonflow/sdk';
+
+const axonflow = new AxonFlow({
+  apiKey: process.env.AXONFLOW_CLIENT_ID,
+  clientSecret: process.env.AXONFLOW_CLIENT_SECRET
+});
+
+// AFTER (New method)
+import { AxonFlow } from '@axonflow/sdk';
+
+const axonflow = new AxonFlow({
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY
+});
+```
+
+**Go Migration:**
+
+```go
+// BEFORE (Old method)
+import "github.com/getaxonflow/axonflow-go"
+
+client := axonflow.NewClientSimple(
+    os.Getenv("AXONFLOW_AGENT_URL"),
+    os.Getenv("AXONFLOW_CLIENT_ID"),
+    os.Getenv("AXONFLOW_CLIENT_SECRET"),
+)
+
+// AFTER (New method)
+import "github.com/getaxonflow/axonflow-go"
+
+client, err := axonflow.NewClient(axonflow.ClientConfig{
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+})
+```
+
+**Step 4: Test Migration**
+
+Run your application with the new license key:
+
+```bash
+# Set new environment variable
+export AXONFLOW_LICENSE_KEY=AXON-PRO-12345-ABCDE-67890
+
+# Remove old variables
+unset AXONFLOW_CLIENT_ID
+unset AXONFLOW_CLIENT_SECRET
+
+# Run your app
+npm start  # or go run main.go
+```
+
+**Step 5: Verify**
+
+Confirm authentication works with license key:
+
+```bash
+curl -X POST https://YOUR_ENDPOINT/health \
+  -H "X-License-Key: AXON-PRO-12345-ABCDE-67890"
+
+# Expected: {"status":"healthy","license":{"valid":true,...}}
+```
+
+### Migration Checklist
+
+- [ ] Contact support to receive license key
+- [ ] Update environment variables (remove CLIENT_ID/SECRET, add LICENSE_KEY)
+- [ ] Update SDK initialization code
+- [ ] Test in development environment
+- [ ] Deploy to staging and verify
+- [ ] Deploy to production
+- [ ] Remove old environment variables from secrets manager
+- [ ] Update documentation and runbooks
+
+### Common Migration Issues
+
+**Issue: "Invalid license key"**
+- **Cause:** License key format incorrect or expired
+- **Solution:** Verify key format matches `AXON-{TIER}-{ID}-{TIMESTAMP}-{HMAC}`, contact support if expired
+
+**Issue: "License validation failed"**
+- **Cause:** HMAC signature verification failed
+- **Solution:** Ensure license key is copied exactly (no extra spaces or newlines)
+
+**Issue: "Feature not available in tier"**
+- **Cause:** License tier (PRO/ENT/PLUS) doesn't support requested feature
+- **Solution:** Upgrade license tier or use available features
+
+### Need Help Migrating?
+
+Contact our migration support team:
+- **Email:** migration-support@getaxonflow.com
+- **Slack:** #license-migration (priority support)
+- **Response Time:** < 4 hours during business hours
+
+We can help with:
+- License key generation
+- Code migration assistance
+- Testing and verification
+- Rollback procedures if needed
+
+---
+
 ## Next Steps
 
 - Review [TypeScript SDK Guide](./typescript-getting-started.md) for code examples
 - Review [Go SDK Guide](./go-getting-started.md) for Go integration
 - Learn about [AWS Marketplace Deployment](../deployment/aws-marketplace.md) for In-VPC setup
-- Read [Security Best Practices](../security/best-practices.md) for production hardening
+- Read [Node Management Guide](../node-management.md) for license compliance
 
 ## Support
 

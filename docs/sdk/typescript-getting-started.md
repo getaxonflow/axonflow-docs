@@ -34,7 +34,7 @@ import OpenAI from 'openai';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Add AxonFlow governance (3 lines)
-const axonflow = new AxonFlow({ apiKey: process.env.AXONFLOW_API_KEY });
+const axonflow = new AxonFlow({ licenseKey: process.env.AXONFLOW_LICENSE_KEY });
 
 // Wrap any AI call with protect()
 const response = await axonflow.protect(async () => {
@@ -54,7 +54,7 @@ import { AxonFlow, wrapOpenAIClient } from '@axonflow/sdk';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const axonflow = new AxonFlow({ apiKey: process.env.AXONFLOW_API_KEY });
+const axonflow = new AxonFlow({ licenseKey: process.env.AXONFLOW_LICENSE_KEY });
 
 // Wrap the entire client - all calls are now protected
 const protectedOpenAI = wrapOpenAIClient(openai, axonflow);
@@ -74,7 +74,7 @@ const response = await protectedOpenAI.chat.completions.create({
 import { AxonFlow } from '@axonflow/sdk';
 import { useState } from 'react';
 
-const axonflow = new AxonFlow({ apiKey: process.env.NEXT_PUBLIC_AXONFLOW_API_KEY });
+const axonflow = new AxonFlow({ licenseKey: process.env.NEXT_PUBLIC_AXONFLOW_LICENSE_KEY });
 
 function ChatComponent() {
   const [response, setResponse] = useState('');
@@ -121,7 +121,7 @@ import OpenAI from 'openai';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const axonflow = new AxonFlow({ apiKey: process.env.AXONFLOW_API_KEY });
+const axonflow = new AxonFlow({ licenseKey: process.env.AXONFLOW_LICENSE_KEY });
 
 export default async function handler(
   req: NextApiRequest,
@@ -155,7 +155,7 @@ import OpenAI from 'openai';
 
 const app = express();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const axonflow = new AxonFlow({ apiKey: process.env.AXONFLOW_API_KEY });
+const axonflow = new AxonFlow({ licenseKey: process.env.AXONFLOW_LICENSE_KEY });
 
 app.post('/api/chat', async (req, res) => {
   const { prompt } = req.body;
@@ -183,10 +183,10 @@ app.listen(3000);
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: 'your-api-key',           // Required (your client_id from AxonFlow)
+  licenseKey: 'your-license-key',    // Required (License Key from AxonFlow)
   mode: 'production',                // or 'sandbox' for testing
   endpoint: 'https://staging-eu.getaxonflow.com', // Default public endpoint
-  tenant: 'your-tenant-id',         // For multi-tenant setups
+  tenant: 'your-tenant-id',          // For multi-tenant setups
   debug: false,                      // Enable debug logging
 });
 ```
@@ -195,7 +195,7 @@ const axonflow = new AxonFlow({
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   mode: 'production',
   endpoint: 'https://staging-eu.getaxonflow.com',
 
@@ -223,7 +223,7 @@ For customers running within AWS VPC, use the private endpoint for sub-10ms late
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   endpoint: 'https://YOUR_VPC_IP:8443',  // VPC private endpoint (replace YOUR_VPC_IP with your internal IP)
   tenant: process.env.AXONFLOW_TENANT,
   mode: 'production'
@@ -302,7 +302,7 @@ import { AxonFlow, AxonFlowResponse, AxonFlowError } from '@axonflow/sdk';
 
 // Full type safety
 const axonflow = new AxonFlow({
-  apiKey: string,
+  licenseKey: string,
   mode?: 'production' | 'sandbox',
   endpoint?: string,
   tenant?: string,
@@ -434,7 +434,7 @@ import { AxonFlow } from '@axonflow/sdk';
 
 async function planTrip() {
   const axonflow = new AxonFlow({
-    apiKey: process.env.AXONFLOW_API_KEY,
+    licenseKey: process.env.AXONFLOW_LICENSE_KEY,
     debug: true
   });
 
@@ -471,12 +471,12 @@ Never hardcode API keys:
 ```typescript
 // ✅ Good
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY
 });
 
 // ❌ Bad
 const axonflow = new AxonFlow({
-  apiKey: 'hardcoded-key-123'  // Never do this!
+  licenseKey: 'hardcoded-key-123'  // Never do this!
 });
 ```
 
@@ -486,7 +486,7 @@ In production, AxonFlow fails open if unreachable. This ensures your app stays o
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   mode: 'production'  // Fail-open in production
 });
 
@@ -499,7 +499,7 @@ For multi-tenant applications, use tenant IDs:
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   tenant: getCurrentTenantId()  // Dynamic tenant isolation
 });
 ```
@@ -510,7 +510,7 @@ Reduce latency for repeated queries:
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   cache: {
     enabled: true,
     ttl: 60000  // 1 minute
@@ -524,7 +524,7 @@ Handle transient failures automatically:
 
 ```typescript
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   retry: {
     enabled: true,
     maxAttempts: 3,
@@ -542,7 +542,7 @@ The SDK automatically reuses HTTP connections. For high-throughput applications:
 ```typescript
 // Create once, reuse everywhere
 const axonflow = new AxonFlow({
-  apiKey: process.env.AXONFLOW_API_KEY,
+  licenseKey: process.env.AXONFLOW_LICENSE_KEY,
   endpoint: 'https://staging-eu.getaxonflow.com'
 });
 

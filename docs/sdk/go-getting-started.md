@@ -23,12 +23,11 @@ import (
 )
 
 func main() {
-    // Simple initialization
-    client := axonflow.NewClientSimple(
-        "https://staging-eu.getaxonflow.com",
-        "your-client-id",
-        "your-client-secret",
-    )
+    // Initialize with License Key (recommended)
+    client := axonflow.NewClient(axonflow.ClientConfig{
+        AgentURL:   "https://staging-eu.getaxonflow.com",
+        LicenseKey: "your-license-key",  // Enterprise License Key from AxonFlow
+    })
 
     // Execute a governed query
     resp, err := client.ExecuteQuery(
@@ -60,13 +59,12 @@ import (
 )
 
 // Full configuration with all features
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL:     "https://staging-eu.getaxonflow.com",
-    ClientID:     "your-client-id",
-    ClientSecret: "your-client-secret",
-    Mode:         "production",  // or "sandbox"
-    Debug:        true,           // Enable debug logging
-    Timeout:      60 * time.Second,
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://staging-eu.getaxonflow.com",
+    LicenseKey: "your-license-key",  // Enterprise License Key
+    Mode:       "production",        // or "sandbox"
+    Debug:      true,                 // Enable debug logging
+    Timeout:    60 * time.Second,
 
     // Retry configuration (exponential backoff)
     Retry: axonflow.RetryConfig{
@@ -90,10 +88,9 @@ client := axonflow.NewClient(axonflow.AxonFlowConfig{
 Handle transient failures automatically:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL: "https://staging-eu.getaxonflow.com",
-    ClientID: "your-client-id",
-    ClientSecret: "your-secret",
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://staging-eu.getaxonflow.com",
+    LicenseKey: "your-license-key",
     Retry: axonflow.RetryConfig{
         Enabled:      true,
         MaxAttempts:  3,           // Retry up to 3 times
@@ -115,10 +112,9 @@ resp, err := client.ExecuteQuery(
 Reduce latency and load with intelligent caching:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL: "https://staging-eu.getaxonflow.com",
-    ClientID: "your-client-id",
-    ClientSecret: "your-secret",
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://staging-eu.getaxonflow.com",
+    LicenseKey: "your-license-key",
     Cache: axonflow.CacheConfig{
         Enabled: true,
         TTL:     60 * time.Second,  // Cache for 60 seconds
@@ -137,12 +133,11 @@ resp2, _ := client.ExecuteQuery("token", "query", "chat", nil)
 Never block your users if AxonFlow is unavailable:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL: "https://staging-eu.getaxonflow.com",
-    ClientID: "your-client-id",
-    ClientSecret: "your-secret",
-    Mode:     "production",  // Fail-open in production
-    Debug:    true,
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://staging-eu.getaxonflow.com",
+    LicenseKey: "your-license-key",
+    Mode:       "production",  // Fail-open in production
+    Debug:      true,
 })
 
 // If AxonFlow is unavailable, request proceeds with warning
@@ -155,11 +150,10 @@ resp, err := client.ExecuteQuery(...)
 Enable detailed logging during development:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL: "https://staging-eu.getaxonflow.com",
-    ClientID: "your-client-id",
-    ClientSecret: "your-secret",
-    Debug:    true,  // Logs all requests/responses
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://staging-eu.getaxonflow.com",
+    LicenseKey: "your-license-key",
+    Debug:      true,  // Logs all requests/responses
 })
 
 // Outputs:
@@ -197,11 +191,10 @@ Never hardcode credentials:
 import "os"
 
 // Load from environment
-client := axonflow.NewClientSimple(
-    os.Getenv("AXONFLOW_AGENT_URL"),
-    os.Getenv("AXONFLOW_CLIENT_ID"),
-    os.Getenv("AXONFLOW_CLIENT_SECRET"),
-)
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+})
 ```
 
 **Environment file (`.env`):**
@@ -209,13 +202,11 @@ client := axonflow.NewClientSimple(
 ```bash
 # SaaS Mode (Public Endpoint)
 AXONFLOW_AGENT_URL=https://staging-eu.getaxonflow.com
-AXONFLOW_CLIENT_ID=client-healthcare-prod-a1b2c3
-AXONFLOW_CLIENT_SECRET=secret-xyz123
+AXONFLOW_LICENSE_KEY=AXON-ENT-your-org-20250101-abc123def
 
 # In-VPC Mode (Private Endpoint)
 AXONFLOW_AGENT_URL=https://YOUR_VPC_IP:8443
-AXONFLOW_CLIENT_ID=client-healthcare-prod-a1b2c3
-AXONFLOW_CLIENT_SECRET=secret-xyz123
+AXONFLOW_LICENSE_KEY=AXON-ENT-your-org-20250101-abc123def
 ```
 
 ## VPC Private Endpoint (Low-Latency)
@@ -223,11 +214,10 @@ AXONFLOW_CLIENT_SECRET=secret-xyz123
 For applications running in AWS VPC, use the private endpoint for sub-10ms latency:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    AgentURL:     "https://YOUR_VPC_IP:8443",  // VPC private endpoint (replace YOUR_VPC_IP with your internal IP)
-    ClientID:     "your-client-id",
-    ClientSecret: "your-secret",
-    Mode:         "production",
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://YOUR_VPC_IP:8443",  // VPC private endpoint (replace YOUR_VPC_IP with your internal IP)
+    LicenseKey: "your-license-key",
+    Mode:       "production",
 })
 
 // Enjoy sub-10ms P99 latency vs ~100ms over public internet
@@ -431,11 +421,10 @@ import (
 
 func main() {
     // Initialize client
-    client := axonflow.NewClient(axonflow.AxonFlowConfig{
-        AgentURL:     os.Getenv("AXONFLOW_AGENT_URL"),
-        ClientID:     os.Getenv("AXONFLOW_CLIENT_ID"),
-        ClientSecret: os.Getenv("AXONFLOW_CLIENT_SECRET"),
-        Debug:        true,
+    client := axonflow.NewClient(axonflow.ClientConfig{
+        AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+        LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+        Debug:      true,
     })
 
     // 1. Generate multi-agent plan
@@ -561,13 +550,12 @@ func processQueriesConcurrently(client *axonflow.Client, queries []string) {
 
 ## Configuration Reference
 
-### AxonFlowConfig
+### ClientConfig
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `AgentURL` | `string` | Required | AxonFlow Agent endpoint URL |
-| `ClientID` | `string` | Required | Client ID for authentication |
-| `ClientSecret` | `string` | Required | Client secret for authentication |
+| `LicenseKey` | `string` | Required | Enterprise License Key for authentication |
 | `Mode` | `string` | `"production"` | `"production"` or `"sandbox"` |
 | `Debug` | `bool` | `false` | Enable debug logging |
 | `Timeout` | `time.Duration` | `60s` | Request timeout |
@@ -586,11 +574,10 @@ Never hardcode credentials:
 ```go
 import "os"
 
-client := axonflow.NewClientSimple(
-    os.Getenv("AXONFLOW_AGENT_URL"),
-    os.Getenv("AXONFLOW_CLIENT_ID"),
-    os.Getenv("AXONFLOW_CLIENT_SECRET"),
-)
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+})
 ```
 
 ### 2. Fail-Open in Production
@@ -598,8 +585,10 @@ client := axonflow.NewClientSimple(
 Use `Mode: "production"` to fail-open if AxonFlow is unavailable:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    Mode: "production",  // Critical for production resilience
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+    Mode:       "production",  // Critical for production resilience
 })
 ```
 
@@ -608,7 +597,9 @@ client := axonflow.NewClient(axonflow.AxonFlowConfig{
 Reduce latency for repeated queries:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
     Cache: axonflow.CacheConfig{
         Enabled: true,
         TTL:     60 * time.Second,
@@ -621,7 +612,9 @@ client := axonflow.NewClient(axonflow.AxonFlowConfig{
 Handle transient failures automatically:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
     Retry: axonflow.RetryConfig{
         Enabled:      true,
         MaxAttempts:  3,
@@ -635,8 +628,10 @@ client := axonflow.NewClient(axonflow.AxonFlowConfig{
 Use `Debug: true` during development, disable in production:
 
 ```go
-client := axonflow.NewClient(axonflow.AxonFlowConfig{
-    Debug: os.Getenv("ENV") == "development",
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   os.Getenv("AXONFLOW_AGENT_URL"),
+    LicenseKey: os.Getenv("AXONFLOW_LICENSE_KEY"),
+    Debug:      os.Getenv("ENV") == "development",
 })
 ```
 
@@ -749,7 +744,10 @@ The SDK is safe for concurrent use:
 
 ```go
 // Create once, use from multiple goroutines
-client := axonflow.NewClientSimple(...)
+client := axonflow.NewClient(axonflow.ClientConfig{
+    AgentURL:   "https://staging-eu.getaxonflow.com",
+    LicenseKey: "your-license-key",
+})
 
 // Safe to call from multiple goroutines
 go func() { client.ExecuteQuery(...) }()

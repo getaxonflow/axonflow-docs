@@ -13,13 +13,23 @@ MCP (Model Context Protocol) provides a standardized way for AI agents to access
 
 ## Available Connectors
 
-| Connector | Type | Status | Use Case |
-|-----------|------|--------|----------|
-| [Amadeus GDS](/docs/mcp/amadeus) | Travel | Production | Flight, hotel booking |
-| [Redis](/docs/mcp/redis) | Cache | Production | Session, cache management |
-| [PostgreSQL](/docs/mcp/postgresql) | Database | Production | Relational data access |
-| [HTTP REST](/docs/mcp/http-rest) | API | Production | Generic API integration |
-| Custom | Any | SDK Available | Build your own |
+AxonFlow supports **7 production-ready connectors** as of November 2025:
+
+| Connector | Type | Status | Use Case | Documentation |
+|-----------|------|--------|----------|---------------|
+| [PostgreSQL](/docs/mcp/postgresql) | Database | ✅ Production | Relational data access, multi-tenant queries | [Setup Guide](/docs/mcp/postgresql) |
+| [Redis](/docs/mcp/redis) | Cache | ✅ Production | Distributed rate limiting, session management | [Setup Guide](/docs/mcp/redis) |
+| [Slack](/docs/mcp/connectors/slack) | Communication | ✅ Production | Team notifications, alerts, messaging | [Setup Guide](/docs/mcp/connectors/slack) |
+| [Salesforce](/docs/mcp/connectors/salesforce) | CRM | ✅ Production | Customer data, leads, SOQL queries | [Setup Guide](/docs/mcp/connectors/salesforce) |
+| [Snowflake](/docs/mcp/connectors/snowflake) | Data Warehouse | ✅ Production | Analytics, reporting, large-scale queries | [Setup Guide](/docs/mcp/connectors/snowflake) |
+| [Amadeus GDS](/docs/mcp/amadeus) | Travel | ✅ Production | Flight search, hotel booking, real-time pricing | [Setup Guide](/docs/mcp/amadeus) |
+| [Cassandra](/docs/mcp/cassandra) | NoSQL | ✅ Production | Booking data, distributed database access | [Setup Guide](/docs/mcp/cassandra) |
+| **Custom** | Any | SDK Available | Build your own connector using AxonFlow SDK | [Developer Guide](/docs/mcp/custom) |
+
+**New Connectors (November 2025):**
+- **Slack** - OAuth 2.0 bot token authentication for team communication
+- **Salesforce** - OAuth 2.0 password grant for CRM data access
+- **Snowflake** - Key-pair JWT authentication for data warehouse queries
 
 ## Connector Architecture
 

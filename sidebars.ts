@@ -30,6 +30,9 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'examples/overview',
+        'examples/healthcare',
+        'examples/ecommerce',
+        'examples/trip-planner',
       ],
     },
     {
@@ -86,6 +89,7 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'api/agent-endpoints',
+        'api/orchestrator-endpoints',
         'api/error-codes',
       ],
     },

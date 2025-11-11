@@ -204,7 +204,7 @@ To upgrade your AxonFlow license:
 A: No. Only nodes that have sent a heartbeat within the last 5 minutes count as active.
 
 **Q: Can I temporarily exceed my limit during deployments?**
-A: Yes, rolling deployments may briefly exceed limits as new nodes start before old ones stop. This is acceptable for short periods (<5 minutes).
+A: Yes, rolling deployments may briefly exceed limits as new nodes start before old ones stop. This is acceptable for short periods (less than 5 minutes).
 
 **Q: What happens if I accidentally exceed my limit?**
 A: Your existing nodes will continue operating. You'll receive alerts and should remediate by scaling down or upgrading.

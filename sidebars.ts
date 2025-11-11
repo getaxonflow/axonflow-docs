@@ -17,6 +17,23 @@ const sidebars: SidebarsConfig = {
     'getting-started',
     {
       type: 'category',
+      label: 'Tutorials',
+      collapsed: false,
+      items: [
+        'tutorials/first-agent',
+        'tutorials/workflow-examples',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Examples',
+      collapsed: false,
+      items: [
+        'examples/overview',
+      ],
+    },
+    {
+      type: 'category',
       label: 'SDK Integration',
       collapsed: false,
       items: [
@@ -69,8 +86,18 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'api/agent-endpoints',
+        'api/error-codes',
       ],
     },
+    {
+      type: 'category',
+      label: 'Security',
+      collapsed: false,
+      items: [
+        'security/best-practices',
+      ],
+    },
+    'node-management',
   ],
 };
 

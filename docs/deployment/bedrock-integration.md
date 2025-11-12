@@ -30,9 +30,9 @@ Foundation Models (Claude, Llama, Mistral, etc.)
 
 | Model | Model ID | Use Case | Cost (Per 1M Tokens) |
 |-------|----------|----------|---------------------|
-| **Claude 3.5 Sonnet** | `anthropic.claude-3-5-sonnet-20240620-v1:0` | Complex reasoning, code generation | Input: $3.00<br>Output: $15.00 |
-| **Claude 3 Haiku** | `anthropic.claude-3-haiku-20240307-v1:0` | Fast responses, high throughput | Input: $0.25<br>Output: $1.25 |
-| **Claude 3 Opus** | `anthropic.claude-3-opus-20240229-v1:0` | Highest accuracy, complex tasks | Input: $15.00<br>Output: $75.00 |
+| **Claude 3.5 Sonnet** | `anthropic.claude-3-5-sonnet-20240620-v1:0` | Complex reasoning, code generation | Input: $3.00<br />Output: $15.00 |
+| **Claude 3 Haiku** | `anthropic.claude-3-haiku-20240307-v1:0` | Fast responses, high throughput | Input: $0.25<br />Output: $1.25 |
+| **Claude 3 Opus** | `anthropic.claude-3-opus-20240229-v1:0` | Highest accuracy, complex tasks | Input: $15.00<br />Output: $75.00 |
 
 **Recommendation:** Start with Claude 3.5 Sonnet for balanced performance/cost, switch to Haiku for high-volume use cases.
 
@@ -40,8 +40,8 @@ Foundation Models (Claude, Llama, Mistral, etc.)
 
 | Model | Model ID | Use Case | Cost (Per 1M Tokens) |
 |-------|----------|----------|---------------------|
-| **Llama 3 70B** | `meta.llama3-70b-instruct-v1:0` | Open-source alternative, coding | Input: $0.99<br>Output: $0.99 |
-| **Llama 3 8B** | `meta.llama3-8b-instruct-v1:0` | Budget-friendly, simple tasks | Input: $0.30<br>Output: $0.30 |
+| **Llama 3 70B** | `meta.llama3-70b-instruct-v1:0` | Open-source alternative, coding | Input: $0.99<br />Output: $0.99 |
+| **Llama 3 8B** | `meta.llama3-8b-instruct-v1:0` | Budget-friendly, simple tasks | Input: $0.30<br />Output: $0.30 |
 
 **Recommendation:** Llama 3 70B for cost-sensitive deployments where Claude's advanced reasoning isn't required.
 
@@ -49,8 +49,8 @@ Foundation Models (Claude, Llama, Mistral, etc.)
 
 | Model | Model ID | Use Case | Cost (Per 1M Tokens) |
 |-------|----------|----------|---------------------|
-| **Mistral Large** | `mistral.mistral-large-2402-v1:0` | European compliance, multilingual | Input: $8.00<br>Output: $24.00 |
-| **Mixtral 8x7B** | `mistral.mixtral-8x7b-instruct-v0:1` | Efficient mixture-of-experts | Input: $0.45<br>Output: $0.70 |
+| **Mistral Large** | `mistral.mistral-large-2402-v1:0` | European compliance, multilingual | Input: $8.00<br />Output: $24.00 |
+| **Mixtral 8x7B** | `mistral.mixtral-8x7b-instruct-v0:1` | Efficient mixture-of-experts | Input: $0.45<br />Output: $0.70 |
 
 **Recommendation:** Mistral for EU data residency requirements or multilingual use cases.
 

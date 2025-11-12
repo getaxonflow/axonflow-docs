@@ -645,7 +645,7 @@ version: '3.8'
 
 services:
   trip-planner-backend:
-    image: 686831565523.dkr.ecr.eu-central-1.amazonaws.com/axonflow-trip-planner-backend:latest
+    image: YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_REGION.amazonaws.com/axonflow-trip-planner-backend:latest
     ports:
       - "8085:8085"
     environment:
@@ -656,7 +656,7 @@ services:
       - AMADEUS_API_SECRET=${AMADEUS_API_SECRET}
 
   trip-planner-frontend:
-    image: 686831565523.dkr.ecr.eu-central-1.amazonaws.com/axonflow-trip-planner-frontend:latest
+    image: YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_REGION.amazonaws.com/axonflow-trip-planner-frontend:latest
     ports:
       - "3003:3000"
     environment:

@@ -95,7 +95,7 @@ Audit Trail (HIPAA compliance)
 **[TYPE IN TERMINAL]**
 ```bash
 # Connect to PostgreSQL
-psql -h axonflow-db-eu.clim622a0yj7.eu-central-1.rds.amazonaws.com \
+psql -h your-axonflow-db.us-east-1.rds.amazonaws.com \
      -U axonflow -d axonflow
 
 # Create patient records table
@@ -253,7 +253,7 @@ agents:
     tools:
       - type: database
         name: patient_database
-        connection: postgresql://axonflow-db-eu...
+        connection: postgresql://your-axonflow-db.region.rds.amazonaws.com...
         permissions:
           - SELECT on patient_records
         queries:

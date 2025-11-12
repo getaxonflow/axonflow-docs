@@ -14,7 +14,7 @@
 - [ ] Font size 18pt+ (readable on mobile)
 - [ ] Dark theme (easier on eyes)
 - [ ] Prepare demo environment (AWS account ready, credentials ready)
-- [ ] Test script run-through (ensure <5 min)
+- [ ] Test script run-through (ensure &lt;5 min)
 - [ ] Background music: Soft, non-distracting (optional)
 
 **Required Tools:**
@@ -252,7 +252,7 @@ Behind the Scenes:
 2. Policy enforcement ✅
 3. LLM routing (Bedrock Claude) ✅
 4. Audit logging ✅
-5. Response in <250ms ✅
+5. Response in &lt;250ms ✅
 ```
 
 ---

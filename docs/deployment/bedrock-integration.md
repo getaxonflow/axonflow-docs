@@ -522,7 +522,7 @@ aws cloudwatch put-metric-alarm \
    ```bash
    # Deploy AxonFlow in same region as Bedrock
    # Bad: AxonFlow in eu-central-1, Bedrock in us-east-1 (+100ms latency)
-   # Good: Both in us-east-1 (<10ms latency)
+   # Good: Both in us-east-1 (&lt;10ms latency)
    ```
 
 ### Issue 3: Throttling Errors
@@ -961,7 +961,7 @@ export BEDROCK_REGION=eu-central-1
 
 ### Q: Does AxonFlow add latency to Bedrock calls?
 
-**A:** AxonFlow adds <10ms overhead (P95):
+**A:** AxonFlow adds &lt;10ms overhead (P95):
 - Direct Bedrock call: 280ms
 - Via AxonFlow: 288ms (+8ms for governance)
 

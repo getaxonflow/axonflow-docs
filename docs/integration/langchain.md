@@ -349,7 +349,7 @@ def execute_with_monitoring(agent, query):
     return result
 ```
 
-**Expected Overhead:** AxonFlow adds <10ms (sub-10ms P95) for policy enforcement.
+**Expected Overhead:** AxonFlow adds &lt;10ms (sub-10ms P95) for policy enforcement.
 
 ---
 
@@ -501,7 +501,7 @@ print(policy_result)  # Shows why policy denied
 
 **Solution:**
 1. Measure LangChain vs AxonFlow latency separately
-2. AxonFlow should add <10ms overhead
+2. AxonFlow should add &lt;10ms overhead
 3. If AxonFlow >10ms, check network latency to AxonFlow endpoint
 
 ```python

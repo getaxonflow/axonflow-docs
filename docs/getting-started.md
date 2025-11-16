@@ -12,7 +12,70 @@ AxonFlow is an enterprise AI governance platform that enables organizations to d
 - **In-VPC Deployment**: Your data never leaves your infrastructure
 - **Policy-as-Code**: Version-controlled governance policies in your git repository
 
-## Quick Facts
+## Deployment Options
+
+AxonFlow offers two deployment paths:
+
+1. **Self-Hosted (Open Source)** - Free local deployment via docker-compose
+2. **AWS Marketplace (Enterprise)** - Production-ready in-VPC deployment
+
+## 🏠 Self-Hosted Deployment (Open Source)
+
+Perfect for development, evaluation, and small-scale deployments. **No license required**.
+
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/getaxonflow/axonflow.git
+cd axonflow
+
+# Set your OpenAI API key
+export OPENAI_API_KEY=sk-your-key-here
+
+# Start all services
+docker-compose up
+
+# Access demo app
+open http://localhost:3000
+```
+
+That's it! AxonFlow is now running locally with all features:
+- ✅ Agent + Orchestrator + PostgreSQL
+- ✅ Full policy enforcement
+- ✅ MCP connector support
+- ✅ No authentication required for localhost
+
+### What You Get
+
+- **Deployment Time**: 2-3 minutes
+- **Infrastructure**: Docker Compose (localhost)
+- **Database**: PostgreSQL (containerized)
+- **Performance**: Full production features, localhost performance
+- **Cost**: Free and open source (Apache 2.0)
+
+### Self-Hosted Use Cases
+
+- **Development**: Build and test AI applications locally
+- **Evaluation**: Try AxonFlow features before enterprise deployment
+- **Small Scale**: Run production workloads without cloud infrastructure
+- **Air-Gapped**: Deploy in restricted network environments
+
+### Prerequisites
+
+- Docker and Docker Compose installed
+- OpenAI API key (for LLM features)
+- 4GB RAM minimum
+
+For detailed self-hosted setup instructions, see [Self-Hosted Deployment Guide](/docs/deployment/self-hosted).
+
+---
+
+## ☁️ AWS Marketplace Deployment (Enterprise)
+
+For production workloads requiring high availability, auto-scaling, and enterprise support.
+
+### Quick Facts
 
 - **Deployment Time**: 15-20 minutes via CloudFormation
 - **Deployment Method**: AWS ECS/Fargate (one-click)
@@ -20,7 +83,7 @@ AxonFlow is an enterprise AI governance platform that enables organizations to d
 - **Performance Guarantee**: Sub-10ms P95 latency for policy evaluation
 - **Architecture**: Agent (5 tasks) + Orchestrator (10 tasks) + RDS PostgreSQL
 
-## AWS Marketplace Product
+### AWS Marketplace Product
 
 AxonFlow is available as a Container product on AWS Marketplace:
 

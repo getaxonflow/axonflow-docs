@@ -5,14 +5,14 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  icon: string;
   description: ReactNode;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Sub-10ms Policy Enforcement',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    icon: '⚡',
     description: (
       <>
         Real-time AI governance without latency impact. Deploy In-VPC for P95 sub-10ms
@@ -22,7 +22,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Multi-Agent Orchestration',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    icon: '🤖',
     description: (
       <>
         Coordinate 10-100+ AI agents in parallel with MAP (Multi-Agent Planning).
@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Production-Ready Deployment',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    icon: '🚀',
     description: (
       <>
         One-click AWS Marketplace deployment with CloudFormation. In-VPC architecture
@@ -42,11 +42,11 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, icon, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <div className={styles.featureIcon}>{icon}</div>
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

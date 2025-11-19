@@ -208,14 +208,14 @@ This verifies:
 
 **Good for:**
 - Development and testing
-- Small-scale production (<1000 req/day)
+- Small-scale production (&lt;1000 req/day)
 - Air-gapped environments
 - Cost-sensitive deployments
 - Learning and evaluation
 
 **Not recommended for:**
-- High availability requirements (>99.9%)
-- Large-scale production (>10K req/day)
+- High availability requirements (&gt;99.9%)
+- Large-scale production (&gt;10K req/day)
 - Enterprise compliance needs
 - Multi-region deployments
 
